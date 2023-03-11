@@ -1,0 +1,60 @@
+﻿@model IEnumerable<ProductDto>
+<br />
+<br />
+
+<div class="container ps-4 border">
+    <div class="row pb-2">
+        <div class="col">
+            <h1 class=" text-primary">Products list</h1>
+        </div>
+        <div class="col text-end pt-2">
+            <a asp-action="ProductCreate" class="btn btn-outline-info"><i class="fas fa-plus"> Create New Product</i></a>
+        </div>
+    </div>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>
+					Name
+				</th>
+				<th>
+					Category Name
+				</th>
+				<th>
+					Price
+				</th>
+				<th>
+					Image
+				</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td>
+						@item.Name
+					</td>
+					<td>
+						@item.CategoryName
+					</td>
+					<td>
+						<img src="@item.ImageUrl">
+					</td>
+					<td>
+						@((item.Price).ToString("c"))
+					</td>
+					<td>
+						<a asp-action="ProductEdit" class="btn btn-success" asp-route-productId="@item.ProductId">
+							<i class="fas fa-edit"></i>
+						</a>
+						<a asp-action="ProductDelete" class="btn btn-danger" asp-route-productId="@item.ProductId">
+							<i class="fas fa-trash"></i>
+						</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
