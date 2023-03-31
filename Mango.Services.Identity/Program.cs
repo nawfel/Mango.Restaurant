@@ -29,10 +29,11 @@ var Identity = builder.Services.AddIdentityServer(options =>
 .AddInMemoryApiScopes(StaticDetails.ApiScopes)
 .AddInMemoryClients(StaticDetails.Clients)
 .AddAspNetIdentity<ApplicationUser>();
-
+builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 
 Identity.AddDeveloperSigningCredential();
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
+
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -52,5 +53,14 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
+SeedDatabase();
 app.Run();
+
+ void SeedDatabase()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbInitializer=scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+        dbInitializer.Initialize();
+    }
+}

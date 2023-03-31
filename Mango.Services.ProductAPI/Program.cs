@@ -3,6 +3,7 @@ using Mango.Services.ProductAPI;
 using Mango.Services.ProductAPI.Mapping;
 using Mango.Services.ProductAPI.Repository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +14,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
-
 IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
 
 builder.Services.AddSingleton(mapper);
